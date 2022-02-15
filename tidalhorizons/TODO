@@ -1,0 +1,18 @@
+var((x,y,z)) gives the values at x,y,z coordinates
+
+-> get Gauss-Legendre grid in spherical coordinates
+-> trasform the grid into cartesian coorinates
+-> feed it into the interpolator of the respective
+   grid function and get values
+   this will basically serve as Func(r, theta , phi)
+-> take these values and decompose them into spherical harm
+-> get components
+
+
+
+GaussLegendreGrid(θ, φ) -> (?) Cartesian grid -> GridFunction((x,y,z))
+
+from horizon grid -> get (r, θ, φ) -> interpolate r(θ, φ)
+in order to get new r' for θ', φ' Gauss legendre grid.
+
+take r', θ', φ' --> Cartesian Grid --> GridFunction((x', y', z'))
