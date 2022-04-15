@@ -6,9 +6,7 @@ import matplotlib.pyplot as plt
 
 
 def GaussLegendreMesh(lmax, coords="geo", radians=False):
-    latitude, longitude = pysh.expand.GLQGridCoord(
-        lmax=lmax, extend=False
-    )
+    latitude, longitude = pysh.expand.GLQGridCoord(lmax=lmax, extend=False)
     if coords == "geo":
         latitute, longitude = np.meshgrid(latitude, longitude)
         return latitude, longitude
@@ -55,12 +53,7 @@ def decompose(data, lmax=None):
         if np.iscomplexobj(data):
             try:
                 cilm = pysh.expand.SHExpandGLQC(
-                    data.T,
-                    w,
-                    zero,
-                    norm=4,
-                    csphase=-1,
-                    lmax_calc=lmax,
+                    data.T, w, zero, norm=4, csphase=-1, lmax_calc=lmax,
                 )
             except:
                 cilm = pysh.expand.SHExpandGLQC(
@@ -69,12 +62,7 @@ def decompose(data, lmax=None):
         else:
             try:
                 cilm = pysh.expand.SHExpandGLQ(
-                    data.T,
-                    w,
-                    zero,
-                    norm=4,
-                    csphase=-1,
-                    lmax_calc=lmax,
+                    data.T, w, zero, norm=4, csphase=-1, lmax_calc=lmax,
                 )
             except:
                 cilm = pysh.expand.SHExpandGLQ(
@@ -85,12 +73,12 @@ def decompose(data, lmax=None):
 
 
 if __name__ == "__main__":
+    pass
+if __name__ == "__main__":
     lmax = 2
-    theta, phi = GaussLegendreMesh(
-        lmax, coords="spherical", radians=True
-    )
-    l = 1
-    m = 0
+    theta, phi = GaussLegendreMesh(lmax, coords="spherical", radians=True)
+    l = 2
+    m = 1
     # n = 0
     # print(np.degrees(2*np.pi*n+np.arccos(-1/np.sqrt(3))))
     # print(np.degrees(2*np.pi*n+np.arccos(1/np.sqrt(3))))
@@ -100,9 +88,9 @@ if __name__ == "__main__":
     Ylm = Spherical_Harmonic(l, m, lmax, "complex")
     Ylm2 = Ylm * Spherical_Harmonic(2, m, lmax, "complex")
     print(Ylm2.data.sum())
-    exit()
-    coefs = decompose(ylm)
+
+    coefs = decompose(ylm, lmax=lmax)
     print(coefs)
 
-    Coefs = decompose(Ylm)
+    Coefs = decompose(Ylm, lmax=lmax)
     print(Coefs)

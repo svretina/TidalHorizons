@@ -1,0 +1,119 @@
+\documentclass[reprint, prd, nofootinbib, superscriptaddress, floatfix]{revtex4-2}  % chktex 8
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage[linktocpage,colorlinks,pdfusetitle,allcolors=blue]{hyperref}
+\usepackage{amsmath, amssymb}
+\usepackage{siunitx}
+\usepackage{cancel}
+
+
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\newlength\figureheight
+\newlength\figurewidth
+\setlength\figureheight{\linewidth}
+\setlength\figurewidth{\linewidth}
+
+
+\newcommand{\eq}[1]{Eq.\ \eqref{#1}}
+\newcommand{\fig}[1]{Fig.\ \ref{#1}}
+\newcommand{\SV}[1]{{\color{red}{[[Stamatis:: #1]]}}}
+\newcommand{\BK}[1]{{\color{green}{[[Badri:: #1]]}}}
+\newcommand{\GB}[1]{{\color{blue}{[[Erik:: #1]]}}}
+\newcommand{\Mdot}{\langle \dot{M} \rangle}
+\newcommand{\Jdot}{\langle \dot{J} \rangle}
+
+
+
+
+\begin{document}
+
+\title{Tidal Horizons}
+
+\author{Stamatis Vretinaris}
+\email{svretina@physics.auth.gr}
+\affiliation{
+  Institute for Mathematics, Astrophysics and Particle Physics, Radboud University, Heyendaalseweg 135, 6525 AJ Nijmegen, The Netherlands
+}
+
+\author{Badri Krishnan}
+\affiliation{
+  Institute for Mathematics, Astrophysics and Particle Physics, Radboud University, Heyendaalseweg 135, 6525 AJ Nijmegen, The Netherlands
+}
+
+\author{Erik Schnetter}
+\affiliation{
+  Perimeter Institute for Theoretical Physics, Waterloo, Ontario,
+  N2L 2Y5, Canada}
+\affiliation{
+Department of Physics & Astronomy, University of Waterloo,
+Waterloo, ON N2L 3G1, Canada}
+\affiliation{
+Center for Computation & Technology, Louisiana State
+University, Baton Rouge, LA 70803, USA
+}
+
+\date{\today}
+
+\begin{abstract}
+abstract\end{abstract}
+
+\maketitle
+\section{Introduction}
+Horizon data is generated using the Kerr Shild data for a single black hole of mass 1 and spin 0.
+
+We use the QuasiLocalMeasures thorn to extract information on the horizon such as the $\Psi_{2}$ scalar.
+For a Schwarzschild black hole this is
+\begin{equation}
+  \label{eq:psi2-schwarzschild}
+  \Psi_{2} = -\frac{M}{r^{3}}
+\end{equation}
+
+
+We expand the $\Psi_{2}$ scalar into spherical harmonics
+\begin{equation}
+  \label{eq:expansion}
+  \Psi_{2} = \sum_{l=0}^{\infty}\sum_{m=-l}^{l} C_{l}^{m}Y_{l}^{m}(\vartheta, \phi)
+\end{equation}
+where
+\begin{equation}
+  \label{eq:spherical-harmonics}
+  Y_{l}^{m}= (-1)^{m} \sqrt{\frac{(2l+1)}{4\pi} \frac{(l-m)!}{(l+m)!}} P_{l}^{m} (\cos \vartheta) e^{im\phi}
+\end{equation}
+where $P_{l}^{m}$ are the associated Legendre polynomials.
+
+as a test we decompose \eq{eq:psi2-schwarzschild}
+\begin{equation}
+  \label{eq:psi2-expansion}
+  C_{l}^{m} = \int_{\Omega} \Psi_{2} Y_{l}^{m}(\vartheta, \phi) d\Omega = \Psi_{2} \int_{0}^{2\pi} d\phi
+\int_{0}^{\pi }Y_{l}^{m}\sin\vartheta d\vartheta
+\end{equation}
+all coefficients $C_{l}^{m}$ except the $C_{0}^{0}$
+\begin{equation}
+  C_{0}^{0} = \Psi_{2} \int_{0}^{2\pi} d\phi \int_{0}^{\pi }Y_{0}^{0}\sin\vartheta d\vartheta = 2\sqrt{\pi} \Psi_{2}
+\end{equation}
+which evaluates to $C_{0}^{0}=-0.443114$ for a Schwarzschild black hole of mass 1.
+
+\section{Code description}
+We use the \texttt{Carpet} infrastructure to produce initial data for a single Schwarzschild black hole by using the Kerr Schild data provided by the \texttt{Exact} thorn. The Weyl scalars are extracted by the \texttt{QuasiLocalMeasures} thorn and are imported through \texttt{kuibit}.
+
+For the spherical decompositions we use the \texttt{pyshtools} library.
+We interpolate the horizon data onto a Gauss-Legendre grid and decompose it.
+The numerical value of $C_{0}^{0}$ we get is -0.44310608.
+
+The accuracy of the interpolation is low and erros are introduced at this step.
+
+
+Next steps:\\
+- two schwarzschild black holes\\
+- one schwarzschild one kerr\\
+- two kerr\\
+
+run for various values of\\
+- distance, spin, mass ratio
+
+
+\end{document}
